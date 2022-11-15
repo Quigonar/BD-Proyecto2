@@ -1,1 +1,49 @@
-<p>edit-product works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Edit Product</h4>
+                    </div>
+                    <div class="content">
+                        <form [formGroup]="productForm" (ngSubmit)="onEdit(productForm.value)">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input formControlName="Name" type="text" class="form-control" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        <input formControlName="Category" type="text" class="form-control" placeholder="Category">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input formControlName="Price" type="text" class="form-control" placeholder="Price">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Banner Picture</label>
+                                        <input type="file" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="submit" value="Edit Product" class="btn btn-info btn-fill pull-right">
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

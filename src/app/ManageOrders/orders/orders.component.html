@@ -1,1 +1,44 @@
-<p>orders works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h4 class="title">  Orders List  </h4>
+                            </div>
+                        </div>
+                        <p class="category">    List of all the orders registered in the system    </p>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                          <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let cell of headerRow">{{cell}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr (click)="viewOrder(affiliateID,order.ID)" *ngFor="let order of orders; index as i">
+                                        <td>{{order.ID}}</td>
+                                        <td>{{order.ClientN}} {{order.ClientLN}}</td>
+                                        <td>{{order.Canton}}</td>
+                                        <td>{{order.Status}}</td>
+                                        <td>{{order.Price}}</td>
+                                        <!--<td *ngIf="order.Status == 'Ready'; else elseBlock">
+                                            <button (click)="deliver(order.ID)" type="button" rel="tooltip" title="Deliver" class="btn btn-success btn-simple btn-xs pull-right">
+                                                <i class="fa fa-motorcycle"></i>
+                                            </button>
+                                        </td>
+                                        <ng-template #elseBlock>
+                                            &nbsp;
+                                        </ng-template>-->
+                                    </tr>
+                                </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

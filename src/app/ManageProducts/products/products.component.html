@@ -1,1 +1,134 @@
-<p>products works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div *ngIf="user.userLogged() == 'affiliate'">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h4 class="title">  Products List  </h4>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="row">
+                                        <p class="category">Client's Perspective</p>
+                                    </div>
+                                    <div class="row text-center">
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span (click)="changeView()" class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button (click)="addProduct(affiliateID)" type="submit" class="btn btn-info btn-fill pull-right">
+                                        <div class="font-icon-detail"><i class="pe-7s-add-user"></i></div>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="category">    List of all the products registered in the system    </p> <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="clientView; else elseBlock1">
+            <div *ngFor="let product of products; index as i">
+                <div *ngIf="(i + 1) % 4 != 0; else elseBlock2" class="col-md-3">
+                    <div (click)="viewProduct(product.ID)" class="card card-affiliate">
+                        <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                            <div class="content">
+                                <div class="author">
+                                    <div class="row"><br/>
+                                        <div class="col-md-6">
+                                            <h4 class="title pull-left">{{product.Name}}<br/>
+                                                <small>{{product.Category}}</small>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4 class="title pull-right">Price<br />
+                                                <small>₡ {{product.Price}}</small>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    
+                                </div><br/>
+                                <div *ngIf="user.userLogged() == 'affiliate'">
+                                    <button (click)="editProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button (click)="deleteProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <hr>
+                    </div>
+                </div>
+                <ng-template #elseBlock2>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div (click)="viewProduct(product.ID)" class="card card-affiliate">
+                                <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                                    <div class="content">
+                                        <div class="author">
+                                            <div class="row"><br/>
+                                                <div class="col-md-6">
+                                                    <h4 class="title pull-left">{{product.Name}}<br/>
+                                                        <small>{{product.Category}}</small>
+                                                    </h4>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h4 class="title pull-right">Price<br />
+                                                        <small>₡ {{product.Price}}</small>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            
+                                        </div><br/>
+                                        <div *ngIf="user.userLogged() == 'affiliate'">
+                                            <button (click)="editProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button (click)="deleteProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <ng-template #elseBlock1>
+            <div class="card">
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let cell of headerRow">{{cell}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products; index as i">
+                                <td>{{product.Name}}</td>
+                                <td>{{product.Category}}</td>
+                                <td>{{product.Price}}</td>
+                                <td class="td-actions text-right">
+                                    <button (click)="editProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-xs">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button (click)="deleteProduct(affiliateID,product.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

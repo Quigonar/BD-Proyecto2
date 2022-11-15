@@ -1,1 +1,44 @@
-<p>shopping-cart works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h4 class="title">  Shopping Carts </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                          <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let cell of headerRow">{{cell}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let order of orders; index as i">
+                                        <td>{{order.RestName}}</td>
+                                        <td>{{order.Products.length}} item(s) &nbsp;·&nbsp; ₡ {{order.Price}}</td>
+                                        <td>{{order.Status}}</td>
+                                        <td class="td-actions text-right">
+                                            <button (click)="viewOrder(order.RestID, order.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                            <button *ngIf="order.Status != 'Delivered'" (click)="elimOrder(order.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <button *ngIf="order.Status == 'Delivered'" (click)="giveFeed(order.ClientID, order.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-success btn-simple btn-xs">
+                                                <i class="fa fa-comment"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

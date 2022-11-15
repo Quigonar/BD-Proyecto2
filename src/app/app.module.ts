@@ -14,10 +14,22 @@ import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { UserStorageService } from './services/user-storage.service';
+import { AddAffiliateComponent } from './ManageAffiliates/add-affiliate/add-affiliate.component';
+import { AddAdminComponent } from './ManageAdminAffiliate/add-admin/add-admin.component';
+import { UserComponent } from './user/user.component';
+import { AddUserComponent } from './ClientView/add-user/add-user.component';
+import { ProductsComponent } from './manageProducts/products/products.component';
+import { AffiliatesComponent } from './ManageAffiliates/affiliates/affiliates.component';
+import { ViewOrderComponent } from './ManageOrders/view-order/view-order.component';
+import { AdminsComponent } from './ManageAdminAffiliate/admins/admins.component';
 
 const routes: Routes =[
   { path: '', redirectTo: 'login', pathMatch: 'full'}, 
-  { path: 'login', component:LoginComponent },
+  { path: 'login',                           component:LoginComponent },
+  { path: 'request-affiliation/step-1',      component: AddAdminComponent},
+  { path: 'request-affiliation/step-2',      component: AddAffiliateComponent},
+  { path: 'register',                        component: AddUserComponent}
+  
 ];
 
 @NgModule({
@@ -38,6 +50,11 @@ const routes: Routes =[
     AffiliateLayoutComponent,
     ClientLayoutComponent,
     LoginComponent,
+    UserComponent,
+    ProductsComponent,
+    AffiliatesComponent,
+    AdminsComponent,
+    ViewOrderComponent
   ],
   providers: [
     RouteService,

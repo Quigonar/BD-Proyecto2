@@ -27,6 +27,8 @@ import { EmployeesComponent } from 'app/ManageEmployees/employees/employees.comp
 import { ReportsComponent } from 'app/Reports/reports/reports.component';
 import { AddAffiliateComponent } from 'app/ManageAffiliates/add-affiliate/add-affiliate.component';
 import { AdminLayoutComponent } from './admin-layout.component';
+import { Report1Component } from 'app/Reports/report1/report1.component';
+import { Report2Component } from 'app/Reports/report2/report2.component';
 
 
 
@@ -47,12 +49,10 @@ import { AdminLayoutComponent } from './admin-layout.component';
     AddEmployeeComponent,
     EditEmployeeComponent,
 
-    AffiliatesComponent,
     AddAffiliateComponent,
     EditAffiliateComponent,
     AffiliationComponent,
 
-    AdminsComponent,
     AddAdminComponent,
     EditAdminComponent,
 
@@ -64,7 +64,9 @@ import { AdminLayoutComponent } from './admin-layout.component';
     AddDealerComponent,
     EditDealerComponent,
 
-    ReportsComponent
+    ReportsComponent,
+    Report1Component,
+    Report2Component
   ],
   providers: [
   ],

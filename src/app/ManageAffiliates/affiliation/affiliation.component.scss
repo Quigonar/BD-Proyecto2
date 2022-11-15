@@ -1,0 +1,15 @@
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    padding: 8px, 16px;
+    height: 39px;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 16px;
+    background: transparent;
+    padding: 8px 16px;
+    color: #fff;
+    background: #666666;
+    cursor: pointer;
+    transition: #666666 .2s ease-in-out;
+  }

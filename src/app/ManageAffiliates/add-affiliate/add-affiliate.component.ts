@@ -1,8 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdminI } from 'app/models/admin.interface';
 import { AffiliateI } from 'app/models/affiliate.interface';
+import { CommerceI } from 'app/models/commerce.interface';
 import { ApiService } from 'app/services/api.service';
+import { RouteService } from 'app/services/route.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,6 +15,8 @@ import { Subscription } from 'rxjs';
 })
 export class AddAffiliateComponent implements OnInit {
   public affiliate: AffiliateI
+  public admins: AdminI[]
+  public commerces: CommerceI[]
   private routeSub: Subscription
 
   public affiliateForm = new FormGroup({
@@ -24,35 +29,34 @@ export class AddAffiliateComponent implements OnInit {
     PhoneNum : new FormControl(),
     Email : new FormControl(),
     SINPE : new FormControl(),
-    AdminID : new FormControl(),
-    Banner : new FormControl()
+    AdminID : new FormControl()
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    const file = event && event.item(0);
-    this.affiliate.Banner = file;
+    this.affiliate.Banner = event && event.item(0);
   }
 
-  constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
+  constructor(private route:ActivatedRoute, private api:ApiService, private router:Router, public user:RouteService) { }
 
   onAdd(form){
-    this.affiliate.ID = form.ID
-    this.affiliate.Name = form.Name
-    this.affiliate.Type = form.Type
-    this.affiliate.Province = form.Province
-    this.affiliate.Canton = form.Canton
-    this.affiliate.District = form.District
-    this.affiliate.PhoneNum = form.PhoneNum
-    this.affiliate.Email = form.Email
-    this.affiliate.SINPE = form.SINPE
-    this.affiliate.AdminID = form.AdminID
+    this.affiliate = form
+    
 
     console.log(this.affiliate)
-    // HACER POST POR EL API
-    this.router.navigate(['/affiliates'])
+
+    if (this.user.userLogged() == 'admin') {
+      // HACER POST POR EL API HACIA MAIN DATA BASE
+      this.router.navigate(['/affiliates'])
+    }
+    else if (this.user.userLogged() == 'login') {
+      // HACER POST POR EL API HACIA TEMP DATA BASE
+      alert ("Your request has been sent, wait for approval")
+      this.router.navigate(['/login'])
+    }
   }
 
   ngOnInit(): void {
+    //REPLACE this.commerces AND this.admins WITH API OBTAINED VALUES
     this.affiliate = {
       ID : '',
       Name : '',
@@ -64,6 +68,7 @@ export class AddAffiliateComponent implements OnInit {
       Email : '',
       SINPE : '',
       AdminID : '',
+      Status : '',
       Banner : null    
     }
   }

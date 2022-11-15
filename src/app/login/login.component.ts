@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { RouteService } from 'app/services/route.service';
+import { Router } from '@angular/router';
 
 
 
@@ -38,9 +39,16 @@ export class LoginComponent implements OnInit {
 
   id:string;
 
-  constructor(private api:ApiService, private routeService:RouteService) { }
+  constructor(private api:ApiService, private routeService:RouteService, private router:Router) { }
   
   ngOnInit(): void {
+  }
+
+  affiliationRequest() {
+    this.router.navigate(['/request-affiliation/step-1'])
+  }
+  newUserRequest() {
+    this.router.navigate(['/register'])
   }
 
   onLogin(form) {
@@ -68,13 +76,16 @@ export class LoginComponent implements OnInit {
       RouterModule.forRoot()
     }*/
     if (form.user == "admin" && form.password == "admin") {
-      this.routeService.switch("admin")
+      //CHANGE TO USER ID
+      this.routeService.switch("admin", "0")
     }
     else if (form.user == "affiliate" && form.password == "affiliate") {
-      this.routeService.switch("affiliate")
+      //CHANGE TO USER ID
+      this.routeService.switch("affiliate", "2020034547")
     }
     else if (form.user == "client" && form.password == "client") {
-      this.routeService.switch("client")
+      //CHANGE TO USER ID
+      this.routeService.switch("client", "2020034547")
     }
     else {
       alert("Please fill out the username and password")

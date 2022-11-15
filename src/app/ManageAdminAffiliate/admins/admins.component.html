@@ -1,1 +1,77 @@
-<p>admins works!</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" (click)="dropAdmin()">
+            <div class="header">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4 class="title">  Administrator List  </h4> <b class="caret"></b>
+                    </div>
+                    <div class="col-md-1">
+                        <button (click)="addAdmin()" type="submit" class="btn btn-info btn-fill pull-right">
+                            <div class="font-icon-detail"><i class="pe-7s-add-user"></i></div>
+                        </button>
+                    </div>
+                </div>
+                <p class="category">    List of all the administrators registered in the system    </p> <br/>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="openAdmins">
+    <div *ngFor="let admin of admins; index as i">
+        <div *ngIf="(i + 1) % 4 != 0; else elseBlock" class="col-md-3">
+            <div class="card card-user">
+                <img class="image" src="https://versohydraulic.com/bitrix/templates/aspro-scorp/images/small-banners-background.png" alt="..."/>
+                <div class="content">
+                    <div class="author">
+                        <!--CHANGE SRC OF IMAGE FOR AVATAR TO IMAGE RECEIVED IN API-->
+                        <img class="avatar border-gray" src="assets/img/faces/face-0.jpg" alt="..."/>
+
+                        <h4 class="title">{{admin.FirstN}} {{admin.FirstLN}}<br />
+                            <small>{{admin.Username}}</small>
+                        </h4>
+                        <h4 class="title">
+                            <small>{{admin.ID}}</small>
+                        </h4>
+                    </div><br/>
+                    <button (click)="editAdmin(admin.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button (click)="deleteAdmin(admin.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <ng-template #elseBlock>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card card-user">
+                        <img class="image" src="https://versohydraulic.com/bitrix/templates/aspro-scorp/images/small-banners-background.png" alt="..."/>
+                        <div class="content">
+                            <div class="author">
+                                <!--CHANGE SRC OF IMAGE FOR AVATAR TO IMAGE RECEIVED IN API-->
+                                <img class="avatar border-gray" src="assets/img/faces/face-0.jpg" alt="..."/>
+
+                                <h4 class="title">{{admin.FirstN}} {{admin.FirstLN}}<br />
+                                    <small>{{admin.Username}}</small>
+                                </h4>
+                                <h4 class="title">
+                                    <small>{{admin.ID}}</small>
+                                </h4>
+                            </div><br/>
+                            <button (click)="editAdmin(admin.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button (click)="deleteAdmin(admin.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

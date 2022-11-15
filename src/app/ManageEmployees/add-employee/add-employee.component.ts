@@ -16,37 +16,27 @@ export class AddEmployeeComponent implements OnInit {
   private routeSub: Subscription
 
   public employeeForm = new FormGroup({
-    firstName : new FormControl(),
-    firstLN : new FormControl(),
-    secondLN : new FormControl(),
+    FirstN : new FormControl(),
+    FirstLN : new FormControl(),
+    SecondLN : new FormControl(),
     ID : new FormControl(),
-    username : new FormControl(),
-    password : new FormControl(),
-    province : new FormControl(),
-    canton : new FormControl(),
-    district : new FormControl(),
-    phoneNum : new FormControl(),
-    profilePic : new FormControl()
+    Username : new FormControl(),
+    Password : new FormControl(),
+    Province : new FormControl(),
+    Canton : new FormControl(),
+    District : new FormControl(),
+    PhoneNum : new FormControl()
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    const file = event && event.item(0);
-    this.employee.ProfilePic = file;
+    this.employee.ProfilePic = event && event.item(0);
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
 
   onAdd(form){
-    this.employee.ID = form.ID
-    this.employee.FirstN = form.firstName
-    this.employee.FirstLN = form.firstLN
-    this.employee.SecondLN = form.secondLN
-    this.employee.Username = form.username
-    this.employee.Password = form.password
-    this.employee.Province = form.province
-    this.employee.Canton = form.canton
-    this.employee.District = form.district
-    this.employee.PhoneNum = form.phoneNum
+    this.employee = form
+    
 
     console.log(this.employee)
     // HACER POST POR EL API

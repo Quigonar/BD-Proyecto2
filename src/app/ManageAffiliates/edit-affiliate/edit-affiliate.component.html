@@ -69,13 +69,23 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Administrator ID</label>
-                                        <input formControlName="AdminID" type="text" class="form-control" placeholder="Administrator ID">
+                                        <input formControlName="AdminID" list="adminList" type="text" class="form-control" placeholder="Administrator ID">
+                                        <datalist id="adminList">
+                                            <option *ngFor="let admin of admins" [value]="admin.ID">
+                                                {{admin.FirstN}} {{admin.FirstLN}}
+                                            </option>
+                                        </datalist>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Type of Commerce</label>
-                                        <input formControlName="Type" type="text" class="form-control" placeholder="Type of Commerce">
+                                        <input formControlName="Type" list="commerceList" type="text" class="form-control" placeholder="Type of Commerce">
+                                        <datalist id="commerceList">
+                                            <option *ngFor="let commerce of commerces" [value]="commerce.ID">
+                                                {{commerce.Name}}
+                                            </option>
+                                        </datalist>
                                     </div>
                                 </div>
                             </div>

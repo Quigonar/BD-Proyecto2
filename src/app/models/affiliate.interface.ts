@@ -9,5 +9,6 @@ export interface AffiliateI {
     Email:string;
     SINPE:string;
     AdminID:string;
+    Status:string; //STATUS Pending y Accepted
     Banner:File;
 }

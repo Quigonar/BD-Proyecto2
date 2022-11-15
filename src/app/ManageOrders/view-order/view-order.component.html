@@ -1,1 +1,70 @@
-<p>view-order works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 class="title">  Order #{{order.ID}} </h4>
+                            </div>
+                            <div *ngIf="user.userLogged() == 'affiliate'">
+                                <div class="col-md-2">
+                                    <button (click)="orderReady()" class="btn btn-success btn-fill pull-right">Order Ready</button>
+                                </div>
+                                <div *ngIf="order.Status == 'Ready for pickup'" class="col-md-2">
+                                    <button (click)="deliver()" class="btn btn-success btn-fill pull-right">Deliver Order</button>
+                                </div>
+                            </div>
+                            <div *ngIf="user.userLogged() == 'client' && order.Status != 'Delivered'">
+                                <div class="col-md-2">
+                                    <button (click)="pay()" class="btn btn-success btn-fill pull-right">Order</button>
+                                </div>
+                                <div *ngIf="order.Status == 'On the way'" class="col-md-2">
+                                    <button (click)="delivered()" class="btn btn-success btn-fill pull-right">Order Received</button>
+                                </div>
+                            </div>
+                            <div *ngIf="user.userLogged() == 'client' && order.Status == 'Delivered'">
+                                <div class="col-md-4">
+                                    <button (click)="giveFeed()" class="btn btn-success btn-fill pull-right">Give Feedback</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="user.userLogged() == 'affiliate'; else elseBlock2"><br/>
+                            <p class="category pull-right"> Customer's Name: &nbsp;&nbsp;&nbsp; {{order.ClientN}} {{order.ClientLN}}</p>
+                            <p class="category"> Customer's Location: &nbsp;&nbsp;&nbsp; {{order.Province}},&nbsp; {{order.Canton}},&nbsp; {{order.District}}</p>
+                            <p class="category"> Customer's Payment Status: &nbsp;&nbsp;&nbsp; Successful</p>
+                        </div>
+                        <ng-template #elseBlock2><br/>
+                            <p class="category pull-right"> Restaurant's Name: &nbsp;&nbsp;&nbsp; {{order.RestName}}</p>
+                            <p class="category"> Customer's Location: &nbsp;&nbsp;&nbsp; {{order.Province}},&nbsp; {{order.Canton}},&nbsp; {{order.District}}</p>
+                        </ng-template>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let cell of headerRow">{{cell}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr (click)="editItem(order.ProductIDs[i], order.ProductQuantities[i])" *ngFor="let item of order.Products; index as i">
+                                    <td>{{item}}</td>
+                                    <td>{{order.ProductQuantities[i]}}</td>
+                                    <td>{{order.ProductPrices[i]}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td style="font-weight:bold">Total</td>
+                                    <td style="font-weight:bold">{{order.Price}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

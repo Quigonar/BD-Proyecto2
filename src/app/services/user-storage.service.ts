@@ -22,8 +22,28 @@ export class UserStorageService {
     return localStorage.getItem("user");
   }
 
+  getID() {
+    if (!this.exists()) throw new Error("id does not exist.");
+    return localStorage.getItem("id");
+  }
+
+  getOrderStatus() {
+    if (!this.exists()) throw new Error("status does not exist.");
+    return localStorage.getItem("status");
+  }
+
   set(user: string) {
     if (!this.exists()) throw new Error("user does not exist.");
     localStorage.setItem("user", user);
+  }
+
+  setID(id: string) {
+    if (!this.exists()) throw new Error("id does not exist.");
+    localStorage.setItem("id", id);
+  }
+  
+  setOrderStatus(status: string) {
+    if (!this.exists()) throw new Error("status does not exist.");
+    localStorage.setItem("status", status);
   }
 }

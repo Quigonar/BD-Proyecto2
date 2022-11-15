@@ -8,18 +8,18 @@ declare interface RouteInfo {
     icon: string;
     class: string;
 }
+
 export const Admin: RouteInfo[] = [
   { path: '/employees', title: 'Manage Employees',  icon:'pe-7s-users', class: '' },
   { path: '/affiliates', title: 'Manage Affiliates',  icon:'pe-7s-shopbag', class: '' },
+  { path: '/types', title: 'Manage Commerces',  icon:'pe-7s-ticket', class: '' },
+  { path: '/dealers', title: 'Manage Dealers',  icon:'pe-7s-bicycle', class: '' },
+  { path: '/reports', title: 'Reports', icon:'pe-7s-note', class:'' }
 ]
 
-export const Affiliate: RouteInfo[] = [
-  { path: '/products', title: 'Manage Products', icon:'pe-7s-box1', class:''},
-]
+export var Affiliate: RouteInfo[] = []
 
-export const Client: RouteInfo[] = [
-  { path: '/user', title: 'User Profile',  icon:'pe-7s-user', class: '' },
-]
+export var Client: RouteInfo[] = []
     /*{ path: '/offices', title: 'Manage Offices', icon:'pe-7s-server', class:''},
     { path: '/providers', title: 'Manage Providers', icon:'pe-7s-network', class:''},
     { path: '/products', title: 'Manage Products', icon:'pe-7s-box1', class:''},
@@ -43,9 +43,23 @@ export const ROUTES2: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor(private user:RouteService) { }
+  constructor(private user: RouteService) { 
+    
+  }
 
   ngOnInit() {
+
+    Affiliate = [
+      { path: '/user',   title: 'Manage Admin', icon:'pe-7s-users', class:''},
+      { path: '/products/' + this.user.userID(), title: 'Manage Products', icon:'pe-7s-box1', class:''},
+      { path: '/orders/' + this.user.userID(), title: 'Manage Orders', icon:'pe-7s-shopbag', class:''},
+    ]
+
+    Client = [
+      { path: '/user', title: 'User Profile',  icon:'pe-7s-user', class: '' },
+      { path: '/restaurants/' + this.user.userID(), title: 'Restaurants',  icon:'pe-7s-shopbag', class: '' }
+    ]
+
     /*console.log("id: "  + this._userService.getID())
     console.log("type: " + this._userService.getType())*/
 

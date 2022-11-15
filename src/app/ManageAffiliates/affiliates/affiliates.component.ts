@@ -10,28 +10,40 @@ import { RouteService } from 'app/services/route.service';
   styleUrls: ['./affiliates.component.scss']
 })
 export class AffiliatesComponent implements OnInit {
-
-  affiliates: AffiliateI[]
+  public openAffiliates:boolean = false
+  public affiliates: AffiliateI[]
   
-  constructor(private router:Router, private api:ApiService, private user:RouteService) { }
+  constructor(private router:Router, private api:ApiService, public user:RouteService) {
+    if (this.user.userLogged() == 'client') {
+      this.openAffiliates = true
+    }
+   }
 
   addAffiliate(){
     this.router.navigate(['/add-affiliate'])
   }
   viewAffiliate(id:any){
+    this.router.navigate(['/restaurant/' + this.user.userID() + '/' + id])
     console.log("view: " + id)
   }
   editAffiliate(id:any) {
     this.router.navigate(['/edit-affiliate/',id])
   }
   deleteAffiliate(id:any) {
-    //HACER DELETE POR EL API DEL ID DEL EMPLOYEE 
-    
+    if (confirm("Are you sure you want to delete this affiliate")) {
+      //HACER DELETE POR EL API DEL ID DEL AFFILIATE 
+    }
     this.ngOnInit()
-    //SINO VOLVER A PEDIR LISTA Y REEMPLAZAR this.employees DE NUEVO
+    //SINO VOLVER A PEDIR LISTA Y REEMPLAZAR this.affiliates DE NUEVO
+  }
+
+  dropAffiliate(){
+    this.openAffiliates = !this.openAffiliates
   }
 
   ngOnInit(): void {
+
+
     //PEDIR DEL API LA LISTA DE EMPLEADOS Y REEMPLAZAR ESTA this.employees
     this.affiliates = [
       {
@@ -45,6 +57,7 @@ export class AffiliatesComponent implements OnInit {
         Email : "",
         SINPE : "",
         AdminID : "",
+        Status : "Accepted",
         Banner : null
       },
       {
@@ -58,6 +71,7 @@ export class AffiliatesComponent implements OnInit {
         Email : "",
         SINPE : "",
         AdminID : "",
+        Status : "Accepted",
         Banner : null
       },
       {
@@ -71,6 +85,7 @@ export class AffiliatesComponent implements OnInit {
         Email : "",
         SINPE : "",
         AdminID : "",
+        Status : "Accepted",
         Banner : null
       },
       {
@@ -84,6 +99,7 @@ export class AffiliatesComponent implements OnInit {
         Email : "",
         SINPE : "",
         AdminID : "",
+        Status : "Accepted",
         Banner : null
       },
       {
@@ -97,6 +113,7 @@ export class AffiliatesComponent implements OnInit {
         Email : "",
         SINPE : "",
         AdminID : "",
+        Status : "Accepted",
         Banner : null
       }
     ]

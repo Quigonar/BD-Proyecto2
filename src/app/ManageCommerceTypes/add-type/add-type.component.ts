@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommerceI } from 'app/models/commerce.interface';
+import { ApiService } from 'app/services/api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-type',
@@ -6,10 +11,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-type.component.scss']
 })
 export class AddTypeComponent implements OnInit {
+  private commerce: CommerceI
+  private routeSub: Subscription
+  private file: any
 
-  constructor() { }
+  public commerceForm = new FormGroup({
+    Name : new FormControl()
+  })
+
+  constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
+
+  onAdd(form){
+    this.commerce = form
+
+    console.log(this.commerce)
+    // HACER POST POR EL API
+    this.router.navigate(['/types'])
+  }
 
   ngOnInit(): void {
+    this.commerce = {
+      ID : '',
+      Name : ''
+    }
   }
 
 }

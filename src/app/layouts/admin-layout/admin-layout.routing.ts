@@ -16,6 +16,8 @@ import { EditDealerComponent } from 'app/ManageDealers/edit-dealer/edit-dealer.c
 import { AddEmployeeComponent } from 'app/ManageEmployees/add-employee/add-employee.component';
 import { EditEmployeeComponent } from 'app/ManageEmployees/edit-employee/edit-employee.component';
 import { EmployeesComponent } from 'app/ManageEmployees/employees/employees.component';
+import { Report1Component } from 'app/Reports/report1/report1.component';
+import { Report2Component } from 'app/Reports/report2/report2.component';
 import { ReportsComponent } from 'app/Reports/reports/reports.component';
 
 
@@ -30,7 +32,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'admins',            component:AdminsComponent},
     { path: 'add-admin',         component:AddAdminComponent},
     { path: 'edit-admin/:id',    component:EditAdminComponent},
-    { path: 'affiliation',       component:AffiliationComponent},
+    { path: 'affiliation/:id',   component:AffiliationComponent},
     { path: 'types',             component:TypesComponent},
     { path: 'add-type',          component:AddTypeComponent},
     { path: 'edit-type/:id',     component:EditTypeComponent},
@@ -38,4 +40,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'add-dealer',        component:AddDealerComponent},
     { path: 'edit-dealer/:id',   component:EditDealerComponent},
     { path: 'reports',           component:ReportsComponent},
+    { path: 'reports-1',         component:Report1Component},
+    { path: 'reports-2',         component:Report2Component},
 ];

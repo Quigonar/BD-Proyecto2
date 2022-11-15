@@ -1,1 +1,125 @@
-<p>reports works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div *ngIf="!expand1 && !expand2; else elseBlock">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <h4 class="title">  Reporting List  </h4> <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <!--CHANGE SRC OF IMAGE FOR BANNER TO IMAGE RECEIVED IN API-->
+                        <img class="image" src="assets/img/report-1.PNG" alt="..."/>
+                        <div class="content">
+                            <div class="author">
+            
+                                <h4 class="title"> Reporte Consolidado de Ventas <br />
+                                    <small>Total de compras que han realizado los clientes</small>
+                                </h4>
+                            </div><br/>
+                            <button (click)="expandReport1()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-lg">
+                                <i class="fa fa-expand"></i>
+                            </button>
+                            <button type="button" rel="tooltip" title="Download" class="btn btn-info btn-simple btn-lg">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <!--CHANGE SRC OF IMAGE FOR BANNER TO IMAGE RECEIVED IN API-->
+                        <img class="image" src="assets/img/report-2.PNG" alt="..."/>
+                        <div class="content">
+                            <div class="author">
+    
+                                <h4 class="title"> Reporte de Ventas por Afiliado <br />
+                                    <small>Total de ventas que han realizado los afiliados</small>
+                                </h4>
+                            </div><br/>
+                            <button (click)="expandReport2()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-lg">
+                                <i class="fa fa-expand"></i>
+                            </button>
+                            <button type="button" rel="tooltip" title="Download" class="btn btn-info btn-simple btn-lg">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #elseBlock>
+            <div *ngIf="expand1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h4 class="title">  Reporte Consolidado de Ventas  </h4> <br/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="expandReport1()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-sm">
+                                            <i class="fa fa-reply"></i>
+                                        </button> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="downloadReport1()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-sm">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <app-report1></app-report1>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expand2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h4 class="title">  Reporte de Ventas por Afiliado  </h4> <br/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="expandReport2()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-sm">
+                                            <i class="fa fa-reply"></i>
+                                        </button> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="downloadReport2()" type="button" rel="tooltip" title="Expand" class="btn btn-info btn-simple btn-sm">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <app-report2></app-report2>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

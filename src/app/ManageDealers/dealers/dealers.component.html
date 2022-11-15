@@ -1,1 +1,79 @@
-<p>dealers works!</p>
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h4 class="title">  Dealers List  </h4>
+                            </div>
+                            <div class="col-md-1">
+                                <button (click)="addDealer()" type="submit" class="btn btn-info btn-fill pull-right">
+                                    <div class="font-icon-detail"><i class="pe-7s-add-user"></i></div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="category">    List of all the dealers registered in the system    </p> <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let dealer of dealers; index as i">
+            <div *ngIf="(i + 1) % 4 != 0; else elseBlock" class="col-md-3">
+                <div class="card card-user">
+                    <img class="image" src="https://versohydraulic.com/bitrix/templates/aspro-scorp/images/small-banners-background.png" alt="..."/>
+                    <div class="content">
+                        <div class="author">
+                            <!--CHANGE SRC OF IMAGE FOR AVATAR TO IMAGE RECEIVED IN API-->
+                            <img class="avatar border-gray" src="assets/img/faces/face-0.jpg" alt="..."/>
+
+                            <h4 class="title">{{dealer.FirstN}} {{dealer.FirstLN}}<br />
+                                <small>{{dealer.Username}}</small>
+                            </h4>
+                            <h4 class="title">
+                                <small>{{dealer.ID}}</small>
+                            </h4>
+                        </div><br/>
+                        <button (click)="editDealer(dealer.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button (click)="deleteDealer(dealer.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <ng-template #elseBlock>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card card-user">
+                            <img class="image" src="https://versohydraulic.com/bitrix/templates/aspro-scorp/images/small-banners-background.png" alt="..."/>
+                            <div class="content">
+                                <div class="author">
+                                    <!--CHANGE SRC OF IMAGE FOR AVATAR TO IMAGE RECEIVED IN API-->
+                                    <img class="avatar border-gray" src="assets/img/faces/face-0.jpg" alt="..."/>
+        
+                                    <h4 class="title">{{dealer.FirstN}} {{dealer.FirstLN}}<br />
+                                        <small>{{dealer.Username}}</small>
+                                    </h4>
+                                    <h4 class="title">
+                                        <small>{{dealer.ID}}</small>
+                                    </h4>
+                                </div><br/>
+                                <button (click)="editDealer(dealer.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-lg">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button (click)="deleteDealer(dealer.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-lg">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

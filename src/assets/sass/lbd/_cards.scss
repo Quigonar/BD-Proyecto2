@@ -199,40 +199,26 @@
     }
     .content{
         text-align: center;
-        min-height: 0px;
+        min-height: -100px;
     }
 }
 
 .card-food{
     .image{
-        height: 120px;
-    }
-    .image-plain{
-        height: 0;
-        margin-top: 110px;
+        height: 240px;
     }
     .author{
         text-align: center;
         text-transform: none;
-        margin-top: -70px;
-    }
-    .avatar{
-        width: 124px;
-        height: 124px;
-        border: 5px solid #FFFFFF;
-        position: relative;
-        margin-bottom: 15px;
-        
-        &.border-gray{
-            border-color: #EEEEEE;
-        }
+        font-size: $font-size-small;
+        //margin-top: 120px;
     }
     .title{
         line-height: 24px;
     }
     .content{
         text-align: center;
-        min-height: 240px;
+        min-height: 0px;
     }
 }
 

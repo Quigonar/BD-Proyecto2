@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdminI } from 'app/models/admin.interface';
 import { AffiliateI } from 'app/models/affiliate.interface';
+import { CommerceI } from 'app/models/commerce.interface';
 import { ApiService } from 'app/services/api.service';
 import { Subscription } from 'rxjs';
 
@@ -12,6 +14,8 @@ import { Subscription } from 'rxjs';
 })
 export class EditAffiliateComponent implements OnInit {
   public affiliate: AffiliateI
+  public admins: AdminI[]
+  public commerces: CommerceI[]
   private routeSub: Subscription
 
   public affiliateForm = new FormGroup({
@@ -29,8 +33,7 @@ export class EditAffiliateComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    const file = event && event.item(0);
-    this.affiliate.Banner = file;
+    this.affiliate.Banner = event && event.item(0);
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -52,6 +55,7 @@ export class EditAffiliateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //REPLACE this.commerces AND this.admins WITH API OBTAINED VALUES
     this.affiliateForm.controls['ID'].disable()
 
     this.affiliate = {
@@ -65,6 +69,7 @@ export class EditAffiliateComponent implements OnInit {
       Email : "mcdonalds@gmail.com",
       SINPE : "88888888",
       AdminID : "2020034547",
+      Status : "Accepted",
       Banner : null
     }
 

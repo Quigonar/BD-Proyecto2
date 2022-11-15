@@ -29,8 +29,7 @@ export class EditEmployeeComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    const file = event && event.item(0);
-    this.employee.ProfilePic = file;
+    this.employee.ProfilePic = event && event.item(0);
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }

@@ -20,8 +20,9 @@ export class EmployeesComponent implements OnInit {
     this.router.navigate(['/edit-employee/',id])
   }
   deleteEmployee(id:any) {
-    //HACER DELETE POR EL API DEL ID DEL EMPLOYEE 
-
+    if (confirm("Are you sure you want to delete this account")) {
+      //HACER DELETE POR EL API DEL ID DEL EMPLOYEE 
+    }
     this.ngOnInit()
     //SINO VOLVER A PEDIR LISTA Y REEMPLAZAR this.employees DE NUEVO
   }
