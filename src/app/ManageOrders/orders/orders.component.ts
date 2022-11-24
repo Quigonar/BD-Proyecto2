@@ -27,80 +27,13 @@ export class OrdersComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.orders = [
-      {
-        ID: "1",
-        RestID: "2020034547",
-        RestName: "McDonalds",
-        ClientID: "2020034547",
-        ClientN : "Marcos",
-        ClientLN : "Gonzalez",
-        Province : "San Jose",
-        Canton : "Santa Ana",
-        District : "Uruca",
-        Status : "Ready",
-        Price : "1000",
-        Products : [""],
-        ProductPrices : [""],
-        ProductQuantities: [""],
-        ProductIDs: ["1", "2", "3"]
-      },
-      {
-        ID: "2",
-        RestID: "2020034547",
-        RestName: "McDonalds",
-        ClientID: "2020034547",
-        ClientN : "David",
-        ClientLN : "De La Hoz",
-        Province : "",
-        Canton : "Cartago",
-        District : "",
-        Status : "Pending",
-        Price : "3000",
-        Products : [""],
-        ProductPrices : [""],
-        ProductQuantities: [""],
-        ProductIDs: ["1", "2", "3"]
-      },
-      {
-        ID: "3",
-        RestID: "2020034547",
-        RestName: "McDonalds",
-        ClientID: "2020034547",
-        ClientN : "Kenichi",
-        ClientLN : "Hayakawa",
-        Province : "",
-        Canton : "Cartago",
-        District : "",
-        Status : "Pending",
-        Price : "6000",
-        Products : [""],
-        ProductPrices : [""],
-        ProductQuantities: [""],
-        ProductIDs: ["1", "2", "3"]
-      },
-      {
-        ID: "4",
-        RestID: "2020034547",
-        RestName: "McDonalds",
-        ClientID: "2020034547",
-        ClientN : "Marcelo",
-        ClientLN : "Truque",
-        Province : "",
-        Canton : "Cartago",
-        District : "",
-        Status : "Ready",
-        Price : "8000",
-        Products : [""],
-        ProductPrices : [""],
-        ProductQuantities: [""],
-        ProductIDs: ["1", "2", "3"]
-      },
-    ]
-
     this.routeSub = this.route.params.subscribe(params => {
       console.log(params['id'])
       this.affiliateID = params['id']
+      this.api.getOrderIDAf(this.affiliateID).subscribe(orders => {
+        console.log(orders)
+        this.orders = orders
+      })
       //PEDIR DEL API LA LISTA DE ORDENES DEL AFFILIADO CON EL PARAMETRO ID Y REEMPLAZAR this.orders
     })
   }

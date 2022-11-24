@@ -1,7 +1,7 @@
 export interface AffiliateI {
     ID:string;
     Name:string;
-    Type:string;
+    Type:Number;
     Province:string;
     Canton:string;
     District:string;

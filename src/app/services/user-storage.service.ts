@@ -27,6 +27,16 @@ export class UserStorageService {
     return localStorage.getItem("id");
   }
 
+  getAf(){
+    if (!this.exists()) throw new Error("id does not exist.");
+    return localStorage.getItem("af");
+  }
+
+  getCart(){
+    if (!this.exists()) throw new Error("id does not exist.");
+    return localStorage.getItem("cart");
+  }
+
   getOrderStatus() {
     if (!this.exists()) throw new Error("status does not exist.");
     return localStorage.getItem("status");
@@ -40,6 +50,16 @@ export class UserStorageService {
   setID(id: string) {
     if (!this.exists()) throw new Error("id does not exist.");
     localStorage.setItem("id", id);
+  }
+
+  setAf(id:string) {
+    if (!this.exists()) throw new Error("id does not exist.");
+    localStorage.setItem("af", id);
+  }
+  
+  setCart(id:string) {
+    if (!this.exists()) throw new Error("id does not exist.");
+    localStorage.setItem("cart", id);
   }
   
   setOrderStatus(status: string) {

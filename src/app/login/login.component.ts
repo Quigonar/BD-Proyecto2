@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ApiService } from '../services/api.service';
 import { RouteService } from 'app/services/route.service';
 import { Router } from '@angular/router';
+import { LoginI } from 'app/models/login.interface';
 
 
 
@@ -36,8 +37,7 @@ export class LoginComponent implements OnInit {
     user : new FormControl('',Validators.required),
     password : new FormControl('',Validators.required)
   })
-
-  id:string;
+  loginResponse : LoginI
 
   constructor(private api:ApiService, private routeService:RouteService, private router:Router) { }
   
@@ -52,44 +52,27 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(form) {
-    /*if (form.user != "" && form.password != "") {
-      this.api.login(form).subscribe(data => {
-        console.log(data)
-        if (data.status == "ok" && data.type == "Trabajador") {
-          this.user.setType(false)
-          this.router.navigate(['/','workers'])
-        }
-        else if (data.status == "ok" && data.type == "Cliente") {
-          this.user.setType(true)
-          this.id = data.id
-          this.user.setID(this.id)
-          //console.log("id: " + this.user.getID())
-          this.router.navigate(['/','user'])
-        }
-        else{
-          alert("Password or username does not match")
-        }
-      })
-      this.api.login(form)
-      this.router.navigate(['/','products'])
-
-      RouterModule.forRoot()
-    }*/
-    if (form.user == "admin" && form.password == "admin") {
-      //CHANGE TO USER ID
-      this.routeService.switch("admin", "0")
-    }
-    else if (form.user == "affiliate" && form.password == "affiliate") {
-      //CHANGE TO USER ID
-      this.routeService.switch("affiliate", "2020034547")
-    }
-    else if (form.user == "client" && form.password == "client") {
-      //CHANGE TO USER ID
-      this.routeService.switch("client", "2020034547")
-    }
-    else {
-      alert("Please fill out the username and password")
-    }
+    this.api.login(form.user,form.password).subscribe(response => {
+      console.log(response[0])
+      if (response[0].Type == "admin") {
+        //CHANGE TO USER ID
+        this.routeService.switch("admin", "0")
+      }
+      else if (response[0].Type == "affiliate" && response[0].ID_client == "accepted") {
+        //CHANGE TO USER ID
+        
+        this.routeService.switch("affiliate", response[0].ID_Admin)
+        this.routeService.setAf(response[0].ID_Affiliate)
+      }
+      else if (response[0].Type == "cliente") {
+        //CHANGE TO USER ID
+        this.routeService.switch("client", response[0].ID_client)
+      }
+      else {
+        alert("Username and password does not match")
+      }
+    })
+    
   }
 }
 

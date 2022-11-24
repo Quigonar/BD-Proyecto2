@@ -27,21 +27,21 @@ export class EditTypeComponent implements OnInit {
 
     console.log(this.commerce)
     // HACER UPDATE POR EL API
-    this.router.navigate(['/types'])
+    this.api.updateCommerce(this.commerce).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/types'])
+    })
   }
 
   ngOnInit(): void {
     this.commerceForm.controls['ID'].disable()
-
-    this.commerce = {
-      ID : '1',
-      Name : 'Restaurante'
-    }
+    //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.commerce
     this.routeSub = this.route.params.subscribe(params => {
       console.log(params['id'])
-      //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.employee
-
-      this.commerceForm.patchValue(this.commerce)
+      this.api.getCommerceID(params['id']).subscribe(type => {
+        this.commerce = type[0]
+        this.commerceForm.patchValue(this.commerce)
+      })
     })
   }
 }

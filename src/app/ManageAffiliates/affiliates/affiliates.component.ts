@@ -32,9 +32,11 @@ export class AffiliatesComponent implements OnInit {
   deleteAffiliate(id:any) {
     if (confirm("Are you sure you want to delete this affiliate")) {
       //HACER DELETE POR EL API DEL ID DEL AFFILIATE 
+      this.api.deleteAffiliate(id).subscribe(response => {
+        console.log(response)
+        window.location.reload()
+      })
     }
-    this.ngOnInit()
-    //SINO VOLVER A PEDIR LISTA Y REEMPLAZAR this.affiliates DE NUEVO
   }
 
   dropAffiliate(){
@@ -42,81 +44,11 @@ export class AffiliatesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     //PEDIR DEL API LA LISTA DE EMPLEADOS Y REEMPLAZAR ESTA this.employees
-    this.affiliates = [
-      {
-        ID : "2020034547",
-        Name : "McDonalds",
-        Type : "Restaurante",
-        Province : "",
-        Canton : "",
-        District : "",
-        PhoneNum : "",
-        Email : "",
-        SINPE : "",
-        AdminID : "",
-        Status : "Accepted",
-        Banner : null
-      },
-      {
-        ID : "2020044876",
-        Name : "Licorera Magu",
-        Type : "Licorera",
-        Province : "",
-        Canton : "",
-        District : "",
-        PhoneNum : "",
-        Email : "",
-        SINPE : "",
-        AdminID : "",
-        Status : "Accepted",
-        Banner : null
-      },
-      {
-        ID : "2020044884",
-        Name : "Farmacia La Bomba",
-        Type : "Farmacia",
-        Province : "",
-        Canton : "",
-        District : "",
-        PhoneNum : "",
-        Email : "",
-        SINPE : "",
-        AdminID : "",
-        Status : "Accepted",
-        Banner : null
-      },
-      {
-        ID : "2020426017",
-        Name : "Pricesmart",
-        Type : "Supermercado",
-        Province : "",
-        Canton : "",
-        District : "",
-        PhoneNum : "",
-        Email : "",
-        SINPE : "",
-        AdminID : "",
-        Status : "Accepted",
-        Banner : null
-      },
-      {
-        ID : "2020023657",
-        Name : "Papa Johns",
-        Type : "Restaurante",
-        Province : "",
-        Canton : "",
-        District : "",
-        PhoneNum : "",
-        Email : "",
-        SINPE : "",
-        AdminID : "",
-        Status : "Accepted",
-        Banner : null
-      }
-    ]
+    this.api.getAffiliateStatus("accepted").subscribe(affiliates => {
+      console.log(affiliates)
+      this.affiliates = affiliates
+    })
   }
 
 }

@@ -30,7 +30,9 @@ export class EditAdminComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.admin.ProfilePic = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.admin.ProfilePic = imagen.base
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -46,35 +48,28 @@ export class EditAdminComponent implements OnInit {
     this.admin.Canton = form.Canton
     this.admin.District = form.District
     this.admin.PhoneNum = form.PhoneNum
+    this.admin.Status = ''
 
     console.log(this.admin)
     // HACER UPDATE POR EL API
-    this.router.navigate(['/employees'])
+    this.api.updateAdmin(this.admin).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/affiliates'])
+    })
   }
 
   ngOnInit(): void {
     this.adminForm.controls['ID'].disable()
 
-    this.admin = {
-      ID: "2020034547",
-      FirstN: "Marcos",
-      FirstLN: "Gonzalez",
-      SecondLN:"Araya",
-      Email: "quigonar@gmail.com",
-      Username: "quigonar",
-      Password: "abcd",
-      Province: "San Jose",
-      Canton: "Santa Ana",
-      District: "Uruca",
-      PhoneNum: "85097252",
-      ProfilePic: null,
-    }
-
     this.routeSub = this.route.params.subscribe(params => {
-      console.log(params['id'])
       //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.employee
+      this.api.getAdminID(params['id']).subscribe(admin => {
+        this.admin = admin[0]
+        this.adminForm.patchValue(this.admin)
+      })
+      
 
-      this.adminForm.patchValue(this.admin)
+      
     })
   }
 

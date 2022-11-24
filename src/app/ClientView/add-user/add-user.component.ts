@@ -35,6 +35,9 @@ export class AddUserComponent implements OnInit {
     this.client = form
     console.log(this.client)
     //HACER EL POST EN EL API
+    this.api.addClient(this.client).subscribe(response => {
+      console.log(response)
+    })
     alert("Your account has been registered")
     this.router.navigate(['/login'])
   }

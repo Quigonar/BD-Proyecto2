@@ -1,7 +1,8 @@
 export interface ProductI {
-    ID:string;
+    ID:Number;
+    AffiliateID:string;
     Name:string;
     Category:string;
-    Price:string;
-    Picture:File;
+    Price:Number;
+    Picture:string;
 }

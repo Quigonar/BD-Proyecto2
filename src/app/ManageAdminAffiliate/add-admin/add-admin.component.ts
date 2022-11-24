@@ -31,25 +31,34 @@ export class AddAdminComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.admin.ProfilePic = event && event.item(0);
-    
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.adminForm.controls['ProfilePic'].setValue(imagen.base)
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router, public user:RouteService) { }
 
   onAdd(form){
     this.admin = form
+    this.admin.Password = ''
+    this.admin.Status = ''
     
 
     console.log(this.admin)
 
     if (this.user.userLogged() == 'admin') {
       // HACER POST POR EL API HACIA MAIN DATA BASE
-      this.router.navigate(['/affiliates'])
+      this.api.addAdmin(this.admin).subscribe(response => {
+        console.log(response)
+        this.router.navigate(['/affiliates'])
+      })
     }
     else if (this.user.userLogged() == 'login') {
       // HACER POST POR EL API HACIA TEMP DATA BASE
-      this.router.navigate(['/request-affiliation/step-2'])
+      this.api.addAdmin(this.admin).subscribe(response => {
+        console.log(response)
+        this.router.navigate(['/request-affiliation/step-2'])
+      })
     }
     
   }
@@ -68,6 +77,7 @@ export class AddAdminComponent implements OnInit {
       District: '',
       PhoneNum: '',
       ProfilePic: null,
+      Status: '',
     }
   }
 

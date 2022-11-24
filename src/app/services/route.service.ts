@@ -14,9 +14,18 @@ export class RouteService {
     console.log("switching to: " + user)
     this.storage.set(user)
     this.storage.setID(id)
+    if (user == "client") {
+      this.storage.setCart("0")
+    }
     this.onUserChange.emit(user)
   }
 
+  setAf(id: string) {
+    this.storage.setAf(id)
+  }
+  setCart(id: string) {
+    this.storage.setCart(id)
+  }
   /*setOrderStatus(status:string) {
     this.storage.setOrderStatus(status)
     this.onUserChange.emit(user)
@@ -25,6 +34,14 @@ export class RouteService {
   /*userOrderStatus() {
     return this.storage.getOrderStatus()
   }*/
+
+  getAf(){
+    return this.storage.getAf()
+  }
+
+  getCart() {
+    return this.storage.getCart()
+  }
 
   userID(){
     return this.storage.getID()

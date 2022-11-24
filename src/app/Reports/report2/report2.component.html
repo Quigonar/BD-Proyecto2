@@ -1,7 +1,31 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div>Report card</div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let cell of headerRow">{{cell}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let affiliate of report">
+                            <td>{{affiliate.Affiliate}}</td>
+                            <td>{{affiliate.Sells}}</td>
+                            <td>{{affiliate.Total}}</td>
+                            <td>{{affiliate.Service}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th>{{compras}}</th>
+                            <th>{{total}}</th>
+                            <th>{{servicio}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-    </div>
+    </div> <br/><br/>
 </div>

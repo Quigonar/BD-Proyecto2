@@ -9,5 +9,5 @@ export interface EmployeeI {
     PhoneNum:string;
     Username:string;
     Password:string;
-    ProfilePic:File;
+    ProfilePic:string;
 }

@@ -36,7 +36,7 @@
             <div *ngFor="let product of products; index as i">
                 <div *ngIf="(i + 1) % 4 != 0; else elseBlock2" class="col-md-3">
                     <div (click)="viewProduct(product.ID)" class="card card-affiliate">
-                        <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                        <img class="image" [src]="product.Picture" alt=""/>
                             <div class="content">
                                 <div class="author">
                                     <div class="row"><br/>
@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div (click)="viewProduct(product.ID)" class="card card-affiliate">
-                                <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                                <img class="image" [src]="product.Picture" alt=""/>
                                     <div class="content">
                                         <div class="author">
                                             <div class="row"><br/>

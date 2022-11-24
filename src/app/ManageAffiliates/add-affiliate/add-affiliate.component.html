@@ -81,7 +81,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Type of Commerce</label>
-                                        <input formControlName="Type" list="commerceList" type="text" class="form-control" placeholder="Type of Commerce">
+                                        <input formControlName="Type" list="commerceList" type="number" class="form-control" placeholder="Type of Commerce">
                                         <datalist id="commerceList">
                                             <option *ngFor="let commerce of commerces" [value]="commerce.ID">
                                                 {{commerce.Name}}

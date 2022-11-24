@@ -1,228 +1,284 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { async, Observable } from 'rxjs'
+import { EmployeeI } from 'app/models/employee.interface';
+import { recommender } from 'googleapis/build/src/apis/recommender';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AffiliateI } from 'app/models/affiliate.interface';
+import { RequestI } from 'app/models/request.interface';
+import { AdminI } from 'app/models/admin.interface';
+import { CommerceI } from 'app/models/commerce.interface';
+import { ProductI } from 'app/models/product.interface';
+import { LoginI } from 'app/models/login.interface';
+import { OrderI } from 'app/models/order.interface';
+import { ClientI } from 'app/models/client.interface';
+import { NewOrderI } from 'app/models/neworder.interface';
+import { FeedI } from 'app/models/feedback.interface';
+import { Report1I } from 'app/models/report1.interface';
+import { Report2I } from 'app/models/report2.interface';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  url:string = "https://localhost:44302/"
+  url:string = "https://ubytecapi20221124012449.azurewebsites.net/"
+  private sanitizer: DomSanitizer
 
   constructor(private http:HttpClient) { }
 
+  getBase64 = async($event: any) => new Promise((resolve,reject) => {
+    try {
+      const reader = new FileReader()
+      reader.readAsDataURL($event)
+      reader.onload = () => {
+        resolve({
+          base:reader.result
+          
+        })
+      }
+      reader.onerror = error => {
+        resolve ({
+          base:null
+        })
+      }
+    } catch(e){
+      return null
+    }
+  })
 
-  login(form:any) {
-    console.log(form)
+  login(username:string, password:string):Observable<LoginI>{
+    let dir = this.url + "login/get/" + username + "/" + password
+    return this.http.get<LoginI>(dir)
   }
 
-  uploadImage(image:File):Observable<Object> {
-    const formData: FormData = new FormData()
-    formData.append('avatar',image,image.name)
-    console.log(image)
-    let dir = this.url + "imagen/guardar"
-    return this.http.post(dir, formData)
+  sendFeed(feed:FeedI):Observable<string>{
+    let dir = "https://mongoapi0907.azurewebsites.net/api/Feedback/"
+    return this.http.post<string>(dir, feed)
   }
 
-  getImage(imageUrl:string):Observable<Blob> {
-    return this.http.get(imageUrl, {responseType: 'blob'});
+  getEmployees():Observable<EmployeeI[]>{
+    let dir = this.url + "empleado/get"
+    return this.http.get<EmployeeI[]>(dir)
+  }
+  getEmployee(id:string):Observable<EmployeeI>{
+    let dir = this.url + "empleado/get/" + id
+    return this.http.get<EmployeeI>(dir)
+  }
+  addEmployee(employee:EmployeeI):Observable<string>{
+    let dir = this.url + "empleado/guardar"
+    return this.http.post<string>(dir, employee)
+  }
+  updateEmployee(employee:EmployeeI):Observable<string>{
+    let dir = this.url + "empleado/update"
+    return this.http.put<string>(dir, employee)
+  }
+  deleteEmployee(id:any):Observable<string>{
+    let dir = this.url + "empleado/delete/" + id
+    return this.http.delete<string>(dir)
+  }
+
+  getAffiliates():Observable<AffiliateI[]>{
+    let dir = this.url + "affiliado/get"
+    return this.http.get<AffiliateI[]>(dir)
+  }
+  getAffiliateID(id:string):Observable<AffiliateI>{
+    let dir = this.url + "affiliado/get/" + id
+    return this.http.get<AffiliateI>(dir)
+  }
+  getAffiliateStatus(status:string):Observable<AffiliateI[]>{
+    let dir = this.url + "affiliado/get_status/" + status
+    return this.http.get<AffiliateI[]>(dir)
+  }
+  addAffiliate(affiliate:AffiliateI):Observable<string>{
+    let dir = this.url + "affiliado/guardar"
+    return this.http.post<string>(dir, affiliate)
+  }
+  addRequest(request:RequestI):Observable<string>{
+    let dir = this.url + "affiliado/crear_solicitud"
+    return this.http.post<string>(dir, request)
+  }
+  updateAffiliate(affiliate:AffiliateI):Observable<string>{
+    let dir = this.url + "affiliado/update"
+    return this.http.put<string>(dir, affiliate)
+  }
+  updateRequest(request:RequestI):Observable<string>{
+    let dir = this.url + "affiliado/update_solicitud"
+    return this.http.put<string>(dir, request)
+  }
+  deleteAffiliate(id:string):Observable<string>{
+    let dir = this.url + "affiliado/delete/" + id
+    return this.http.delete<string>(dir)
+  }
+
+  getAdmins():Observable<AdminI[]>{
+    let dir = this.url + "adminAf/get"
+    return this.http.get<AdminI[]>(dir)
+  }
+  getAdminID(id:string):Observable<AdminI>{
+    let dir = this.url + "adminAf/get/" + id
+    return this.http.get<AdminI>(dir)
+  }
+  addAdmin(admin:AdminI):Observable<string>{
+    let dir = this.url + "adminAf/guardar"
+    return this.http.post<string>(dir, admin)
+  }
+  updateAdmin(admin:AdminI):Observable<string>{
+    let dir = this.url + "adminAf/update"
+    return this.http.put<string>(dir, admin)
+  }
+  deleteAdmin(id:string):Observable<string>{
+    let dir = this.url + "adminAf/delete/" + id
+    return this.http.delete<string>(dir)
+  }
+
+  getCommerces():Observable<CommerceI[]>{
+    let dir = this.url + "tipo_comercio/get"
+    return this.http.get<CommerceI[]>(dir)
+  }
+  getCommerceID(id:string):Observable<CommerceI>{
+    let dir = this.url + "tipo_comercio/get/" + id
+    return this.http.get<CommerceI>(dir)
+  }
+  addCommerce(commerce:CommerceI):Observable<string>{
+    let dir = this.url + "tipo_comercio/guardar"
+    return this.http.post<string>(dir, commerce)
+  }
+  updateCommerce(commerce:CommerceI):Observable<string>{
+    let dir = this.url + "tipo_comercio/update"
+    return this.http.put<string>(dir, commerce)
+  }
+  deleteCommerce(id:string):Observable<string>{
+    let dir = this.url + "tipo_comercio/delete/" + id
+    return this.http.delete<string>(dir)
   }
   
-  /*login(form:LoginInterface):Observable<ResponseI>{
-    console.log(form)
-    let dir = this.url + "login/" + form.user + "/" + form.password
-    return this.http.get<ResponseI>(dir)
+  getDealers():Observable<AdminI[]>{
+    let dir = this.url + "repartidor/get"
+    return this.http.get<AdminI[]>(dir)
+  }
+  getDealerID(id:string):Observable<AdminI>{
+    let dir = this.url + "repartidor/get/" + id
+    return this.http.get<AdminI>(dir)
+  }
+  addDealer(dealer:AdminI):Observable<string>{
+    let dir = this.url + "repartidor/guardar"
+    return this.http.post<string>(dir, dealer)
+  }
+  updateDealer(dealer:AdminI):Observable<string>{
+    let dir = this.url + "repartidor/update"
+    return this.http.put<string>(dir, dealer)
+  }
+  deleteDealer(id:string):Observable<string>{
+    let dir = this.url + "repartidor/delete/" + id
+    return this.http.delete<string>(dir)
   }
 
-  gTableClients():Observable<ClientsListI[]>{
-    let dir = this.url + "cliente/lista"
-    return this.http.get<ClientsListI[]>(dir)
+  getProductos():Observable<ProductI[]>{
+    let dir = this.url + "producto/get"
+    return this.http.get<ProductI[]>(dir)
   }
-  getClient(id:string):Observable<ClientsListI>{
-    //console.log(id)
-    let dir = this.url + "cliente/lista/" + id
-    console.log("dir: " + dir)
-    return this.http.get<ClientsListI>(dir)
+  getProductoID(id:string):Observable<ProductI>{
+    let dir = this.url + "producto/get/" + id
+    return this.http.get<ProductI>(dir)
   }
-  addClient(client:ClientsListI):Observable<ResponseI>{
-    let dir = this.url + "cliente/guardar"
-    console.log(client)
-    return this.http.post<ResponseI>(dir,client)
+  getProductoAffiliado(id:string):Observable<ProductI[]>{
+    let dir = this.url + "producto/get_afiliado/" + id
+    return this.http.get<ProductI[]>(dir)
   }
-  editClientAPI(client:ClientsListI):Observable<ResponseI>{
-    let dir = this.url + "cliente/update"
-    return this.http.put<ResponseI>(dir,client)
-  }
-  deleteClient(client:ClientsListI):Observable<ResponseI>{
-    let dir = this.url + "cliente/delete/" + client.ID
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableOffices():Observable<OfficeListI[]>{
-    let dir = this.url + "sucursal/lista"
-    return this.http.get<OfficeListI[]>(dir)
-  }
-  addOffice(office:OfficeListI):Observable<ResponseI>{
-    let dir = this.url + "sucursal/guardar"
-    return this.http.post<ResponseI>(dir,office)
-  }
-  editOfficeAPI(office:OfficeListI):Observable<ResponseI>{
-    let dir = this.url + "sucursal/update"
-    console.log(office)
-    return this.http.put<ResponseI>(dir,office)
-  }
-  deleteOffice(office:OfficeListI):Observable<ResponseI>{
-    let dir = this.url + "sucursal/delete/" + office.ID
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableProviders():Observable<ProviderListI[]>{
-    let dir = this.url + "proveedor/lista"
-    return this.http.get<ProviderListI[]>(dir)
-  }
-  addProvider(provider:ProviderListI):Observable<ResponseI>{
-    let dir = this.url + "proveedor/guardar"
-    return this.http.post<ResponseI>(dir,provider)
-  }
-  editProviderAPI(provider:ProviderListI):Observable<ResponseI>{
-    let dir = this.url + "proveedor/update"
-    return this.http.put<ResponseI>(dir,provider)
-  }
-  deleteProvider(provider:ProviderListI):Observable<ResponseI>{
-    let dir = this.url + "proveedor/delete/" + provider.ID
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableProducts():Observable<ProductListI[]>{
-    let dir = this.url + "producto/lista"
-    return this.http.get<ProductListI[]>(dir)
-  }
-  addProduct(product:ProductListI):Observable<ResponseI>{
+  addProducto(product:ProductI):Observable<string>{
     let dir = this.url + "producto/guardar"
-    return this.http.post<ResponseI>(dir,product)
+    return this.http.post<string>(dir, product)
   }
-  editProductAPI(product:ProductListI):Observable<ResponseI>{
+  updateProducto(product:ProductI):Observable<string>{
     let dir = this.url + "producto/update"
-    console.log(product)
-    return this.http.put<ResponseI>(dir,product)
+    return this.http.put<string>(dir, product)
   }
-  deleteProduct(product:ProductListI):Observable<ResponseI>{
-    let dir = this.url + "producto/delete/" + product.ID
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableServices():Observable<ServiceListI[]>{
-    let dir = this.url + "servicio/lista"
-    return this.http.get<ServiceListI[]>(dir)
-  }
-  getService(id:Number):Observable<ServiceListI>{
-    let dir = this.url + "servicio/lista/" + id
-    return this.http.get<ServiceListI>(dir)
-  }
-  addService(service:ServiceListI):Observable<ResponseI>{
-    let dir = this.url + "servicio/guardar"
-    //console.log(service)
-    return this.http.post<ResponseI>(dir,service)
-  }
-  editServiceAPI(service:ServiceListI):Observable<ResponseI>{
-    let dir = this.url + "servicio/update"
-    //console.log(service)
-    return this.http.put<ResponseI>(dir,service)
-  }
-  deleteService(service:ServiceListI):Observable<ResponseI>{
-    let dir = this.url + "servicio/delete/" + service.ID
-    return this.http.delete<ResponseI>(dir)
+  deleteProducto(id:string):Observable<string>{
+    let dir = this.url + "producto/delete/" + id
+    return this.http.delete<string>(dir)
   }
 
-
-  gTableWorkers():Observable<WorkersListI[]>{
-    let dir = this.url + "trabajador/lista"
-    return this.http.get<WorkersListI[]>(dir)
+  getOrders():Observable<OrderI[]>{
+    let dir = this.url + "cart-pedido/get"
+    return this.http.get<OrderI[]>(dir)
   }
-  addWorker(worker:WorkersListI):Observable<ResponseI>{
-    //console.log(worker)
-    let dir = this.url + "trabajador/guardar"
-    return this.http.post<ResponseI>(dir,worker)
-  }
-  editWorkerAPI(worker:WorkersListI):Observable<ResponseI>{
-    //console.log(worker)
-    let dir = this.url + "trabajador/update"
-    return this.http.put<ResponseI>(dir,worker)
-  }
-  deleteWorker(worker:WorkersListI):Observable<ResponseI>{
-    let dir = this.url + "trabajador/delete/" + worker.ID
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableAppointments():Observable<AppointmentsListI[]>{
-    let dir = this.url + "cita/lista"
-    return this.http.get<AppointmentsListI[]>(dir)
-  }
-  gTableAppointments2(id:string):Observable<AppointmentsListI[]>{
-    let dir = this.url + "cita/lista/" + id
-    return this.http.get<AppointmentsListI[]>(dir)
-  }
-  addAppointment(appointment:AppointmentsListI):Observable<ResponseI>{
-    console.log(appointment)
-    let dir = this.url + "cita/guardar"
-    
-    return this.http.post<ResponseI>(dir,appointment)
-  }
-  editAppointmentAPI(appointment:AppointmentsListI):Observable<ResponseI>{
-    //console.log(appointment)
-    let dir = this.url + "cita/update"
-    return this.http.put<ResponseI>(dir,appointment)
-  }
-  deleteAppointment(appointment:AppointmentsListI):Observable<ResponseI>{
-    //console.log(appointment)
-    let dir = this.url + "cita/delete/" + appointment.AppointmentN
-    return this.http.delete<ResponseI>(dir)
-  }
-
-
-  gTableInvoices():Observable<BillListI[]>{
-    let dir = this.url + "factura/lista"
-    return this.http.get<BillListI[]>(dir)
-  }
-  gTableInvoices2(id:string):Observable<BillListI[]>{
-    let dir = this.url + "factura/lista/" + id
-    return this.http.get<BillListI[]>(dir)
-  }
-  addInvoice(invoice:BillListI):Observable<ResponseI>{
-    //console.log(invoice)
-    let dir = this.url + "factura/guardar"
-    return this.http.post<ResponseI>(dir,invoice)
-  }
-  deleteInvoice(invoice:string):Observable<ResponseI>{
-    let dir = this.url + "factura/delete/" + invoice
-    return this.http.delete<ResponseI>(dir)
-  }
-  facturar(invoice:string):Observable<ResponseI>{
-    let dir = this.url + "factura/facturar/" + invoice
-    return this.http.get<ResponseI>(dir)
-  }
-
-  gPoints(id:string):Observable<PointsListI>{
-    let dir=this.url+"puntos/lista/"+ id
-    return this.http.get<PointsListI>(dir)
-  }
-
-  generateReport1():Observable<ResponseI>{
-    let dir = this.url + "reportes/reporte1"
-    return this.http.get<ResponseI>(dir)
-  }
-  generateReport2(id:string):Observable<string>{
-    let dir = this.url + "reportes/reporte2/" + id
-    console.log(dir)
+  getDealer(id:string):Observable<string>{
+    let dir = this.url + "cart-pedido/getRep/" + id
     return this.http.get<string>(dir)
   }
-  generateReport3():Observable<string>{
-    let dir = this.url + "reportes/reporte3"
+  getOrderID(id:string):Observable<OrderI>{
+    let dir = this.url + "cart-pedido/get/" + id
+    return this.http.get<OrderI>(dir)
+  }
+  getOrderIDUser(id:string):Observable<OrderI[]>{
+    let dir = this.url + "cart-pedido/get-user/" + id
+    return this.http.get<OrderI[]>(dir)
+  }
+  getOrderIDAf(id:string):Observable<OrderI[]>{
+    let dir = this.url + "cart-pedido/get-af/" + id
+    return this.http.get<OrderI[]>(dir)
+  }
+  addOrder(dealer:OrderI):Observable<string>{
+    let dir = this.url + "cart-pedido/guardar"
+    return this.http.post<string>(dir, dealer)
+  }
+  updateProductCart(cart:NewOrderI):Observable<string>{
+    let dir = this.url + "cart-pedido/updateP"
+    return this.http.put<string>(dir, cart)
+  }
+  addProductCart(cart:NewOrderI):Observable<string>{
+    let dir = this.url + "cart-pedido/add_product"
+    return this.http.put<string>(dir, cart)
+  }
+  createCart(cart:NewOrderI):Observable<string>{
+    let dir = this.url + "cart-pedido/crear_carrito"
+    return this.http.put<string>(dir, cart)
+  }
+  createOrder(id:string):Observable<string>{
+    let dir = this.url + "cart-pedido/crear_pedido/" + id 
     return this.http.get<string>(dir)
-  }*/
+  }
+  readyOrder(id:string):Observable<string>{
+    let dir = this.url + "cart-pedido/alistar_pedido/" + id
+    return this.http.get<string>(dir)
+  }
+  receiveOrder(id:string):Observable<string>{
+    let dir = this.url + "cart-pedido/recibir_pedido/" + id
+    return this.http.get<string>(dir)
+  }
+  deleteOrder(id:string):Observable<string>{
+    let dir = this.url + "cart-pedido/delete/" + id
+    return this.http.delete<string>(dir)
+  }
+
+  getClients():Observable<ClientI[]>{
+    let dir = this.url + "cliente/get"
+    return this.http.get<ClientI[]>(dir)
+  }
+  getClientID(id:string):Observable<ClientI>{
+    let dir = this.url + "cliente/get/" + id
+    return this.http.get<ClientI>(dir)
+  }
+  addClient(dealer:ClientI):Observable<string>{
+    let dir = this.url + "cliente/guardar"
+    return this.http.post<string>(dir, dealer)
+  }
+  updateClient(dealer:ClientI):Observable<string>{
+    let dir = this.url + "cliente/update"
+    return this.http.put<string>(dir, dealer)
+  }
+  deleteClient(id:string):Observable<string>{
+    let dir = this.url + "cliente/delete/" + id
+    return this.http.delete<string>(dir)
+  }
+
+  getReport1():Observable<Report1I[]>{
+    let dir = this.url + "reporte/get/1"
+    return this.http.get<Report1I[]>(dir)
+  }
+  getReport2():Observable<Report2I[]>{
+    let dir = this.url + "reporte/get/2"
+    return this.http.get<Report2I[]>(dir)
+  }
 }

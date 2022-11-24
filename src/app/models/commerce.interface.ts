@@ -1,4 +1,4 @@
 export interface CommerceI {
-    ID:string;
+    ID:Number;
     Name:string;
 }

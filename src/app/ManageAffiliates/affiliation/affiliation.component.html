@@ -85,13 +85,13 @@
                                     <div class="form-group">
                                         <label>Banner Picture</label>
                                         <!--CHANGE SRC OF IMAGE FOR BANNER TO IMAGE RECEIVED IN API-->
-                                        <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                                        <img class="image" [src]="affiliate.Banner" alt=""/>
                                     </div>
                                 </div>
                             </div>
 
-                            <input (click)="onAccept()" value="Accept Affiliation" class="btn btn-success btn-fill pull-left">
-                            <input (click)="onDeny()" value="Deny Affiliation" class="btn btn-danger btn-fill pull-right">
+                            <button (click)="onAccept()" class="btn btn-success btn-fill pull-left">Accept Affiliation</button>
+                            <button (click)="onDeny()" class="btn btn-danger btn-fill pull-right">Deny Affiliation</button>
 
                             <div class="clearfix"></div>
                         </form>

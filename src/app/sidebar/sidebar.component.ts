@@ -51,8 +51,8 @@ export class SidebarComponent implements OnInit {
 
     Affiliate = [
       { path: '/user',   title: 'Manage Admin', icon:'pe-7s-users', class:''},
-      { path: '/products/' + this.user.userID(), title: 'Manage Products', icon:'pe-7s-box1', class:''},
-      { path: '/orders/' + this.user.userID(), title: 'Manage Orders', icon:'pe-7s-shopbag', class:''},
+      { path: '/products/' + this.user.getAf(), title: 'Manage Products', icon:'pe-7s-box1', class:''},
+      { path: '/orders/' + this.user.getAf(), title: 'Manage Orders', icon:'pe-7s-shopbag', class:''},
     ]
 
     Client = [

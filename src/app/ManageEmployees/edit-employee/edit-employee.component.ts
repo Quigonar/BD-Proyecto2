@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class EditEmployeeComponent implements OnInit {
   public employee: EmployeeI
   private routeSub: Subscription
+  private employeeID : any
 
   public employeeForm = new FormGroup({
     FirstN : new FormControl(),
@@ -25,11 +26,13 @@ export class EditEmployeeComponent implements OnInit {
     Canton : new FormControl(),
     District : new FormControl(),
     PhoneNum : new FormControl(),
-    ProfilePic : new FormControl()
+    /*ProfilePic : new FormControl()*/
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.employee.ProfilePic = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.employee.ProfilePic = imagen.base
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -47,32 +50,25 @@ export class EditEmployeeComponent implements OnInit {
 
     console.log(this.employee)
     // HACER UPDATE POR EL API
-    this.router.navigate(['/employees'])
+    this.api.updateEmployee(this.employee).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/employees'])
+    })
   }
 
   ngOnInit(): void {
     this.employeeForm.controls['ID'].disable()
 
-    this.employee = {
-      FirstN: "Marcos",
-      FirstLN: "Gonzalez",
-      SecondLN:"Araya",
-      ID: "2020034547",
-      Username: "quigonar",
-      Password: "abcd",
-      Province: "San Jose",
-      Canton: "Santa Ana",
-      District: "Uruca",
-      PhoneNum: "85097252",
-      ProfilePic: null,
-    }
-
     this.routeSub = this.route.params.subscribe(params => {
-      console.log(params['id'])
-      //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.employee
+      this.employeeID = params['id']
+    })
 
+    //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.employee
+    this.api.getEmployee(this.employeeID).subscribe(employee => {
+      this.employee = employee[0]
       this.employeeForm.patchValue(this.employee)
     })
+
   }
 
 }

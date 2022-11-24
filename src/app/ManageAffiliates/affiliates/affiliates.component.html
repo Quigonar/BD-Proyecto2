@@ -24,7 +24,7 @@
                 <div *ngIf="(i + 1) % 4 != 0; else elseBlock" class="col-md-3">
                     <div class="card card-affiliate" (click)="viewAffiliate(affiliate.ID)">
                         <!--CHANGE SRC OF IMAGE FOR BANNER TO IMAGE RECEIVED IN API-->
-                        <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                        <img class="image" [src]="affiliate.Banner" alt=""/>
                         <div class="content">
                             <div class="author">
                                 <h4 class="title">{{affiliate.Name}}<br />
@@ -51,7 +51,7 @@
                         <div class="col-md-3">
                             <div class="card card-affiliate" (click)="viewAffiliate(affiliate.ID)">
                                 <!--CHANGE SRC OF IMAGE FOR BANNER TO IMAGE RECEIVED IN API-->
-                                <img class="image" src="https://tb-static.uber.com/prod/image-proc/processed_images/5a3a79bbf5e46463c5c3a2e831ba8cc4/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg" alt="..."/>
+                                <img class="image" [src]="affiliate.Banner" alt=""/>
                                 <div class="content">
                                     <div class="author">
                                         <h4 class="title">{{affiliate.Name}}<br />

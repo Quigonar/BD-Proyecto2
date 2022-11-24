@@ -62,117 +62,16 @@ export class NavbarComponent implements OnInit{
         this.bicycleVisible = true
       }
 
-      //GET FROM API TEMP ORDER AND REPLACE this.shoppingCart_
-      this.shoppingCart_ = [
-        {
-          ID: "1",
-          RestID: "2020034547",
-          RestName: "McDonalds",
-          ClientID: "2020034547",
-          ClientN : "Marcos",
-          ClientLN : "Gonzalez",
-          Province : "San Jose",
-          Canton : "Santa Ana",
-          District : "Uruca",
-          Status : "Pending",
-          Price : "1000",
-          Products : ["Pizza", "Soda", "Hamburger"],
-          ProductPrices : ["1000", "300", "4000"],
-          ProductQuantities: ["2", "1", "1"],
-          ProductIDs: ["1", "2", "3"]
-        },
-        {
-          ID: "2",
-          RestID: "2020034547",
-          RestName: "McDonalds",
-          ClientID: "2020034547",
-          ClientN : "Marcos",
-          ClientLN : "Gonzalez",
-          Province : "San Jose",
-          Canton : "Santa Ana",
-          District : "Uruca",
-          Status : "Pending",
-          Price : "1000",
-          Products : ["Pizza", "Soda", "Hamburger"],
-          ProductPrices : ["1000", "300", "4000"],
-          ProductQuantities: ["2", "1", "1"],
-          ProductIDs: ["1", "2", "3"]
-        },
-      ]
+      //GET FROM API ORDER AND REPLACE this.shoppingCart_
+      this.api.getOrderIDUser(this.user.userID()).subscribe(shoppingCarts => {
+        console.log(shoppingCarts)
+        this.shoppingCart_ = shoppingCarts
+      })
 
       //GET FROM API ALL AFFILIATION REQUESTS AND REPLACE this.requests
-      this.requests = [
-        {
-          ID : "2020034547",
-          Name : "McDonalds",
-          Type : "Restaurante",
-          Province : "",
-          Canton : "",
-          District : "",
-          PhoneNum : "",
-          Email : "",
-          SINPE : "",
-          AdminID : "",
-          Status : "Pending",
-          Banner : null
-        },
-        {
-          ID : "2020044876",
-          Name : "Licorera Magu",
-          Type : "Licorera",
-          Province : "",
-          Canton : "",
-          District : "",
-          PhoneNum : "",
-          Email : "",
-          SINPE : "",
-          AdminID : "",
-          Status : "Pending",
-          Banner : null
-        },
-        {
-          ID : "2020044884",
-          Name : "Farmacia La Bomba",
-          Type : "Farmacia",
-          Province : "",
-          Canton : "",
-          District : "",
-          PhoneNum : "",
-          Email : "",
-          SINPE : "",
-          AdminID : "",
-          Status : "Pending",
-          Banner : null
-        },
-        {
-          ID : "2020426017",
-          Name : "Pricesmart",
-          Type : "Supermercado",
-          Province : "",
-          Canton : "",
-          District : "",
-          PhoneNum : "",
-          Email : "",
-          SINPE : "",
-          AdminID : "",
-          Status : "Pending",
-          Banner : null
-        },
-        {
-          ID : "2020023657",
-          Name : "Papa Johns",
-          Type : "Restaurante",
-          Province : "",
-          Canton : "",
-          District : "",
-          PhoneNum : "",
-          Email : "",
-          SINPE : "",
-          AdminID : "",
-          Status : "Pending",
-          Banner : null
-        }
-      ]
+      this.api.getAffiliateStatus("pending").subscribe(requests => {
+        this.requests = requests
+      })
     }
 
     sidebarOpen() {

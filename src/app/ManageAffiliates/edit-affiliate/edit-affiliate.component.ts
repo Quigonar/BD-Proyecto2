@@ -33,7 +33,9 @@ export class EditAffiliateComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.affiliate.Banner = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.affiliate.Banner = imagen.base
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -48,36 +50,36 @@ export class EditAffiliateComponent implements OnInit {
     this.affiliate.Email = form.Email
     this.affiliate.SINPE = form.SINPE
     this.affiliate.AdminID = form.AdminID
+    this.affiliate.Status = ''
 
     console.log(this.affiliate)
     // HACER UPDATE POR EL API
-    this.router.navigate(['/affiliates'])
+    this.api.updateAffiliate(this.affiliate).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/affiliates'])
+    })
+    
   }
 
   ngOnInit(): void {
     //REPLACE this.commerces AND this.admins WITH API OBTAINED VALUES
+    this.api.getCommerces().subscribe(commerces => {
+      this.commerces = commerces
+    })
+    this.api.getAdmins().subscribe(admins => {
+      this.admins = admins
+    })
+    
     this.affiliateForm.controls['ID'].disable()
-
-    this.affiliate = {
-      ID : "2020034547",
-      Name : "McDonalds",
-      Type : "Restaurante",
-      Province : "San Jose",
-      Canton : "Santa Ana",
-      District : "Uruca",
-      PhoneNum : "88888888",
-      Email : "mcdonalds@gmail.com",
-      SINPE : "88888888",
-      AdminID : "2020034547",
-      Status : "Accepted",
-      Banner : null
-    }
 
     this.routeSub = this.route.params.subscribe(params => {
       console.log(params['id'])
       //PEDIR AL API EL EMPLOYEE CON EL PARAMETRO DEL ID Y REEMPLAZAR EL VALOR DE this.employee
-
-      this.affiliateForm.patchValue(this.affiliate)
+      this.api.getAffiliateID(params['id']).subscribe(affiliate => {
+        this.affiliate = affiliate[0]
+        this.affiliateForm.patchValue(this.affiliate)
+      })
+      
     })
   }
 

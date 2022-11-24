@@ -2,9 +2,9 @@ export interface OrderI {
     ID:string;
     RestID:string;
     RestName:string;
-    ClientID:string;
-    ClientN:string;
-    ClientLN:string;
+    ClienteID:string;
+    ClienteN:string;
+    ClienteLN:string;
     Province:string;
     Canton:string;
     District:string;

@@ -23,30 +23,17 @@ export class TypesComponent implements OnInit {
   public elimType(id:any) {
     if (confirm("Are you sure you want to delete this commerce type")) {
       //HACER DELETE POR EL API DEL ID DEL TYPE 
+      this.api.deleteCommerce(id).subscribe(response => {
+        console.log(response)
+        window.location.reload()
+      })
     }
-    this.ngOnInit()
-    //SINO VOLVER A PEDIR LISTA Y REEMPLAZAR this.types DE NUEVO
   }
   
   ngOnInit() {
     //CALL TYPES OF COMMERCE FROM API AND REPLACE this.types
-    this.types = [
-      {
-        ID: "1",
-        Name: "Restaurante"
-      },
-      {
-        ID: "2",
-        Name: "Supermercado"
-      },
-      {
-        ID: "3",
-        Name: "Farmacia"
-      },
-      {
-        ID: "4",
-        Name: "Licorera"
-      },
-    ]
+    this.api.getCommerces().subscribe(commerces => {
+      this.types = commerces
+    })
   }
 }

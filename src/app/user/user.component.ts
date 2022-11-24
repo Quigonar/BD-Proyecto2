@@ -48,7 +48,9 @@ export class UserComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.admin.ProfilePic = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.admin.ProfilePic = imagen.base
+    })
   }
 
   constructor(public user:RouteService, private api:ApiService, private route:ActivatedRoute) { }
@@ -81,6 +83,10 @@ export class UserComponent implements OnInit {
       this.admin.PhoneNum = form.PhoneNum
 
       //UPDATE EN EL API PARA EL ADMIN AFFILIADO
+      this.api.updateAdmin(this.admin).subscribe(response => {
+        console.log(response)
+        window.location.reload()
+      })
     }
     else if (this.user.userLogged() == 'client') {
       this.client.FirstN = form.FirstN
@@ -95,69 +101,57 @@ export class UserComponent implements OnInit {
       this.client.PhoneNum = form.PhoneNum
 
       //UPDATE EN EL API PARA EL CLIENTE
+      this.api.updateClient(this.client).subscribe(response => {
+        console.log(response)
+        window.location.reload()
+      })
     }
-    this.ngOnInit()
-    console.log(form)
   }
 
   onDelete(id:any) { 
     if (this.user.userLogged() == 'affiliate') {
       if (confirm("If you delete your profile, your affiliation will also be cancelled. Are you sure you want to delete it?")) {
         //DELETE EN EL API AL AFFILIATION ADMIN Y EL AFFILIATION
-        this.user.switch("login", "0")
+        this.api.deleteAdmin(id).subscribe(response => {
+          console.log(response)
+        })
+        this.api.deleteAffiliate(this.user.getAf()).subscribe(response => {
+          console.log(response)
+          this.user.switch("login", "0")
+        })
       }
       else { alert("Please contact us if you need to change the administrator of the affiliation") }
     }
     else if (this.user.userLogged() == 'client') {
       if (confirm("Are you sure you want to delete your account")) {
         //DELETE EN EL API AL CLIENTE
-        this.user.switch("login", "0")
+        this.api.deleteClient(id).subscribe(response => {
+          console.log(response)
+          this.user.switch("login", "0")
+        })
+        
       }
     }
   }
 
   ngOnInit() { 
     
-
     if (this.user.userLogged() == 'affiliate') {
       this.adminForm.disable()
-      this.admin = {
-        ID: "2020034547",
-        FirstN: "Marcos",
-        FirstLN: "Gonzalez",
-        SecondLN:"Araya",
-        Email: "quigonar@gmail.com",
-        Username: "quigonar",
-        Password: "abcd",
-        Province: "San Jose",
-        Canton: "Santa Ana",
-        District: "Uruca",
-        PhoneNum: "85097252",
-        ProfilePic: null,
-      }
-      console.log(this.user.userID())
+
       //PEDIR DEL API EL ADMIN Y REEMPLAZAR this.admin
-      this.adminForm.patchValue(this.admin)
+      this.api.getAdminID(this.user.userID()).subscribe(admin => {
+        console.log(admin[0])
+        this.admin = admin[0]
+        this.adminForm.patchValue(this.admin)
+      })
     }
     else if (this.user.userLogged() == 'client') {
       this.clientForm.disable()
-      this.client = {
-        ID: "2020034547",
-        FirstN: "Marcos",
-        FirstLN: "Gonzalez",
-        SecondLN:"Araya",
-        BDate: "2018-07-22",
-        Username: "quigonar",
-        Password: "abcd",
-        Province: "San Jose",
-        Canton: "Santa Ana",
-        District: "Uruca",
-        PhoneNum: "85097252",
-        Status:"Available"
-      }
-      console.log(this.user.userID())
-      //PEDIR DEL API EL CLIENTE Y REEMPLAZAR this.client
-      this.clientForm.patchValue(this.client)
+      this.api.getClientID(this.user.userID()).subscribe(client => {
+        this.client = client[0]
+        this.clientForm.patchValue(this.client)
+      })
     }
   }
 }

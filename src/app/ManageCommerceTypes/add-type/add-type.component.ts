@@ -23,15 +23,19 @@ export class AddTypeComponent implements OnInit {
 
   onAdd(form){
     this.commerce = form
+    this.commerce.ID = 0
 
     console.log(this.commerce)
     // HACER POST POR EL API
-    this.router.navigate(['/types'])
+    this.api.addCommerce(this.commerce).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/types'])
+    })
   }
 
   ngOnInit(): void {
     this.commerce = {
-      ID : '',
+      ID : 0,
       Name : ''
     }
   }

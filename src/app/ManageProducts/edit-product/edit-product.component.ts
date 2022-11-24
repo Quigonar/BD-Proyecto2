@@ -22,7 +22,9 @@ export class EditProductComponent implements OnInit {
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.product.Picture = event && event.item(0)
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      this.product.Picture = imagen.base
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -34,24 +36,22 @@ export class EditProductComponent implements OnInit {
 
     console.log(this.product)
     // HACER UPDATE POR EL API UTILIZANDO EL ID DEL AFILIADO
-    this.router.navigate(['/products/', this.affiliateID])
+    this.api.updateProducto(this.product).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/products/', this.affiliateID])
+    })
   }
 
   ngOnInit(): void {
-    this.product = {
-      ID : "1",
-      Name : "Pizza",
-      Price : "1000",
-      Category: "Food",
-      Picture : null
-    }
-
     
     this.routeSub = this.route.params.subscribe(params => {
-      console.log(params['id'] + " " + params['product'])
+      //console.log(params['id'] + " " + params['product'])
       this.affiliateID = params['id']
       //PEDIR EL PRODUCTO DEL AFFILIADO CON EL PARAMETRO ID Y PRODUCT Y REEMPLAZAR this.product
-      this.productForm.patchValue(this.product)
+      this.api.getProductoID(params['product']).subscribe(product => {
+        this.product = product[0]
+        this.productForm.patchValue(this.product)
+      })
     })
   }
 }

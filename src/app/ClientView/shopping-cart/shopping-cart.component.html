@@ -26,10 +26,10 @@
                                             <button (click)="viewOrder(order.RestID, order.ID)" type="button" rel="tooltip" title="Edit" class="btn btn-info btn-simple btn-xs">
                                                 <i class="fa fa-eye"></i>
                                             </button>
-                                            <button *ngIf="order.Status != 'Delivered'" (click)="elimOrder(order.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <button *ngIf="order.Status == 'pending'" (click)="elimOrder(order.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
                                                 <i class="fa fa-trash"></i>
                                             </button>
-                                            <button *ngIf="order.Status == 'Delivered'" (click)="giveFeed(order.ClientID, order.ID)" type="button" rel="tooltip" title="Remove" class="btn btn-success btn-simple btn-xs">
+                                            <button *ngIf="order.Status == 'Finalizado'" (click)="giveFeed(order.ClienteID, order.ID)" type="button" rel="tooltip" title="Feedback" class="btn btn-success btn-simple btn-xs">
                                                 <i class="fa fa-comment"></i>
                                             </button>
                                         </td>

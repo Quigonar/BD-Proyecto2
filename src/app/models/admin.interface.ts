@@ -10,5 +10,6 @@ export interface AdminI {
     PhoneNum:string;
     Username:string;
     Password:string;
-    ProfilePic:File;
+    ProfilePic:string;
+    Status:string;
 }

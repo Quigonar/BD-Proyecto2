@@ -15,68 +15,62 @@ export class ViewOrderComponent implements OnInit {
   public order:OrderI
   public affiliateID : any
   private routeSub: Subscription
+  public ready : boolean
 
   constructor(private api:ApiService, private router:Router, private route:ActivatedRoute, public user:RouteService) { }
 
   orderReady() {
     //CAMBIAR EL STATUS DE LA ORDEN A LISTA Y HACER EL UPDATE EN EL API
-    this.order.Status = "Ready for pickup"
-    console.log(this.order)
+    this.ready = true
   }
 
   editItem(id:any, qty:any) {
-    if (this.user.userLogged() == 'client') {
-      this.router.navigate(['/product/' + this.order.ClientID + '/' + this.order.RestID + '/' + id + '/' + qty + '/' + this.order.ID])
+    if (this.order.Status == 'pending') {
+      if (this.user.userLogged() == 'client') {
+        this.router.navigate(['/product/' + this.order.ClienteID + '/' + this.order.RestID + '/' + id + '/' + qty + '/' + this.order.ID])
+      }
     }
   }
 
   pay() {
     //HACER POST EN EL API DE LA ORDEN PARA QUE LE SALGA AL RESTAURANTE
-    //CAMBIAR EL ESTADO A Payed
-    this.order.Status = "Delivered" //TESTING
-    /*this.router.navigate(['/shopping-cart/' + this.order.ClientID])*/
+    this.api.createOrder(this.order.ID).subscribe(response => {
+      console.log(response)
+      this.user.setCart('0')
+      alert("This order was sent successfully")
+      window.location.reload()
+    })
   }
 
   deliver() {
     //LLAMAR EL STORED PROCEDURE DEL API PARA QUE CAMBIE LOS STATUS
-    console.log(this.order)
-    this.router.navigate(['/orders/',this.affiliateID])
+    this.api.readyOrder(this.order.ID).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/orders/',this.affiliateID])
+    })
   }
 
   delivered() {
     //LLAMAR EL STORED PROCEDURE DEL API PARA QUE CAMBIE LOS STATUS
-    this.router.navigate(['/feedback/' + this.order.ClientID + '/' + this.order.ID])
+    this.api.receiveOrder(this.order.ID).subscribe(response => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   giveFeed() {
-    this.router.navigate(['/feedback/' + this.order.ClientID + '/' + this.order.ID])
+    this.router.navigate(['/feedback/' + this.order.ClienteID + '/' + this.order.ID])
   }
   
   ngOnInit() {
-    this.order = {
-        ID: "1",
-        RestID: "2020034547",
-        RestName: "McDonalds",
-        ClientID: "2020034547",
-        ClientN : "Marcos",
-        ClientLN : "Gonzalez",
-        Province : "San Jose",
-        Canton : "Santa Ana",
-        District : "Uruca",
-        Status : "Pending",
-        Price : "1000",
-        Products : ["Pizza", "Soda", "Hamburger"],
-        ProductPrices : ["1000", "300", "4000"],
-        ProductQuantities: ["2", "1", "1"],
-        ProductIDs: ["1", "2", "3"]
-      }
     
 
     this.routeSub = this.route.params.subscribe(params => {
-      console.log(params['id'])
       this.affiliateID = params['id']
-      //PEDIR DEL API LA ORDEN POR EL PARAMETRO ID DEL AFILIADO Y ID DE LA ORDEN Y REEMPLAZAR this.order
-      //RECORDAR QUE PUEDE SER DE LA BASE TEMP O DE LA BASE NORMAL
+      this.api.getOrderID(params['order']).subscribe(order => {
+        console.log(order)
+        this.order = order[0]
+      })
     })
   }
 }

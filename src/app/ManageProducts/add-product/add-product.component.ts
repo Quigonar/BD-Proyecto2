@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
   private product: ProductI
@@ -20,30 +20,42 @@ export class AddProductComponent implements OnInit {
     Name : new FormControl(),
     Category : new FormControl(),
     Price : new FormControl(),
+    //Picture : new FormControl()
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.product.Picture = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      //this.productForm.controls['Picture'] = imagen.base
+      this.product.Picture = imagen.base
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
 
   onAdd(form){
-    this.product = form
+    this.product.Name = form.Name
+    this.product.Category = form.Category
+    this.product.Price = form.Price
+    this.product.AffiliateID = this.affiliateID
     
     console.log(this.product)
     // HACER POST POR EL API UTILIZANDO EL ID DEL AFILIADO
-    this.router.navigate(['/products/', this.affiliateID])
+    this.api.addProducto(this.product).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/products/', this.affiliateID])
+    })
   }
 
   ngOnInit(): void {
     this.product = {
-      ID : '',
+      ID : 0,
+      AffiliateID : '',
       Name : '',
-      Price : '',
+      Price : 0,
       Category: '',
-      Picture : null
+      Picture : ''
     }
+
     this.routeSub = this.route.params.subscribe(params => {
       console.log(params['id'])
       this.affiliateID = params['id']

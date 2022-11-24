@@ -9,29 +9,29 @@
                                 <h4 class="title">  Order #{{order.ID}} </h4>
                             </div>
                             <div *ngIf="user.userLogged() == 'affiliate'">
-                                <div class="col-md-2">
+                                <div *ngIf="order.Status == 'Preparandose'" class="col-md-2">
                                     <button (click)="orderReady()" class="btn btn-success btn-fill pull-right">Order Ready</button>
                                 </div>
-                                <div *ngIf="order.Status == 'Ready for pickup'" class="col-md-2">
+                                <div *ngIf="ready" class="col-md-2">
                                     <button (click)="deliver()" class="btn btn-success btn-fill pull-right">Deliver Order</button>
                                 </div>
                             </div>
-                            <div *ngIf="user.userLogged() == 'client' && order.Status != 'Delivered'">
-                                <div class="col-md-2">
+                            <div *ngIf="user.userLogged() == 'client' && order.Status != 'Finalizado'">
+                                <div *ngIf="order.Status != 'En camino' && order.Status != 'Preparandose'" class="col-md-2">
                                     <button (click)="pay()" class="btn btn-success btn-fill pull-right">Order</button>
                                 </div>
-                                <div *ngIf="order.Status == 'On the way'" class="col-md-2">
+                                <div *ngIf="order.Status == 'En camino'" class="col-md-2">
                                     <button (click)="delivered()" class="btn btn-success btn-fill pull-right">Order Received</button>
                                 </div>
                             </div>
-                            <div *ngIf="user.userLogged() == 'client' && order.Status == 'Delivered'">
+                            <div *ngIf="user.userLogged() == 'client' && order.Status == 'Finalizado'">
                                 <div class="col-md-4">
                                     <button (click)="giveFeed()" class="btn btn-success btn-fill pull-right">Give Feedback</button>
                                 </div>
                             </div>
                         </div>
                         <div *ngIf="user.userLogged() == 'affiliate'; else elseBlock2"><br/>
-                            <p class="category pull-right"> Customer's Name: &nbsp;&nbsp;&nbsp; {{order.ClientN}} {{order.ClientLN}}</p>
+                            <p class="category pull-right"> Customer's Name: &nbsp;&nbsp;&nbsp; {{order.ClienteN}} {{order.ClienteLN}}</p>
                             <p class="category"> Customer's Location: &nbsp;&nbsp;&nbsp; {{order.Province}},&nbsp; {{order.Canton}},&nbsp; {{order.District}}</p>
                             <p class="category"> Customer's Payment Status: &nbsp;&nbsp;&nbsp; Successful</p>
                         </div>

@@ -25,11 +25,15 @@ export class AddEmployeeComponent implements OnInit {
     Province : new FormControl(),
     Canton : new FormControl(),
     District : new FormControl(),
-    PhoneNum : new FormControl()
+    PhoneNum : new FormControl(),
+    ProfilePic : new FormControl(),
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    this.employee.ProfilePic = event && event.item(0);
+    this.api.getBase64(event.item(0)).then((imagen: any) => {
+      //this.employee.ProfilePic = imagen.base
+      this.employeeForm.controls['ProfilePic'].setValue(imagen.base)
+    })
   }
 
   constructor(private route:ActivatedRoute, private api:ApiService, private router:Router) { }
@@ -40,7 +44,10 @@ export class AddEmployeeComponent implements OnInit {
 
     console.log(this.employee)
     // HACER POST POR EL API
-    this.router.navigate(['/employees'])
+    this.api.addEmployee(this.employee).subscribe(response => {
+      console.log(response)
+      this.router.navigate(['/employees'])
+    })
   }
 
   ngOnInit(): void {

@@ -32,6 +32,10 @@ export class ProductsComponent implements OnInit {
   }
   deleteProduct(id:any, product:any) {
     //HACER EL DELETE AL API DEL ID DEL PRODUCTO PARA EL AFILIADO POR ID
+    this.api.deleteProducto(product).subscribe(response => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   viewProduct(id:any) {
@@ -42,43 +46,6 @@ export class ProductsComponent implements OnInit {
     if (this.user.userLogged() == 'client') {
       this.clientView = true
     }
-    this.products = [
-      {
-        ID: "1",
-        Name: "Pizza",
-        Category: "Food",
-        Price: "1000",
-        Picture: null
-      },
-      {
-        ID: "2",
-        Name: "Hamburger",
-        Category: "Food",
-        Price: "4000",
-        Picture: null
-      },
-      {
-        ID: "3",
-        Name: "Fries",
-        Category: "Food",
-        Price: "500",
-        Picture: null
-      },
-      {
-        ID: "4",
-        Name: "Soda",
-        Category: "Food",
-        Price: "300",
-        Picture: null
-      },
-      {
-        ID: "5",
-        Name: "Hot Dogs",
-        Category: "Food",
-        Price: "2000",
-        Picture: null
-      },
-    ]
 
     this.routeSub = this.route.params.subscribe(params => {
       this.affiliateID = params['id']
@@ -86,6 +53,10 @@ export class ProductsComponent implements OnInit {
         this.clientID = params['client']
       }
       //PEDIR DEL API LA LISTA DE PRODUCTOS DEL AFFILIADO CON EL PARAMETRO ID Y REEMPLAZAR this.products
+      this.api.getProductoAffiliado(this.affiliateID).subscribe(products => {
+        console.log(products)
+        this.products = products
+      })
     })
   }
 
